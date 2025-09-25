@@ -1,0 +1,58 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'   // 추가
+
+
+	// Spring Data REST 의존성 추가 영역(코드 끝에 버전을 지우게 되면 항상 최신 버전을 불러오게 됨)
+	implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+	// boot-starter-test 아래 코드에 기본적으로 Jackson라이브러리 포함(Json으로 바꿔주는 라이브러리)
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	//	runtimeOnly 'com.h2database:h2'		// 추가
+	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+	// OpenAPI 명세서 관련 의존성 (예전에는 Swagger라고 불렀음)
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
+	// Spring Security 의존성 관련(버전 지우기)
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// jjwt 관련 설정
+	implementation 'io.jsonwebtoken:jjwt-api:0.13.0'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.13.0'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.13.0'
+
+
+	// Lombok 관련
+	implementation 'org.projectlombok:lombok:1.18.42'
+	annotationProcessor 'org.projectlombok:lombok:1.18.42'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
