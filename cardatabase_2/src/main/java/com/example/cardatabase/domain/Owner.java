@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@RequiredArgsConstructor    // 롬복이 final 필드를 위한 생성자 자동 생성
+@RequiredArgsConstructor  // 롬복이 final 필드를 위한 생성자 자동 생성
 @NoArgsConstructor(force = true)
 @Data
 @Entity

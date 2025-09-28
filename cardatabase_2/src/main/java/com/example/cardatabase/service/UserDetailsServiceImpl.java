@@ -23,7 +23,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {  // 사용자가 로그인 요청을 보낼 때 입력한 아이디(username)
-        Optional<AppUser> user = userRepository.findByUsername(username);
+        Optional<AppUser> user = userRepository.findByUsername(username);  // 로그인 username을 DB에 있는 username과 비교 하여 같은 값이 있는 객체를 담음
 
         UserBuilder builder = null;   // 아이디는 중복이 아니니깐 어차피 하나임 그래서 객체 하나만 들고 와지는 거임
         if (user.isPresent()) { // 이하의 실행문이 실행된다면 user에 AppUser 객체가 있다는 의미(검색이 된다면)
@@ -35,6 +35,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
 
-        return builder.build();
+        return builder.build();   // 그럼 여기 빌드값은 뭐야?
     }
 }

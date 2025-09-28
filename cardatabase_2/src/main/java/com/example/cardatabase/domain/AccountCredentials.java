@@ -20,4 +20,12 @@ public record AccountCredentials(String username, String password) {
      AccountCredentials -> 로그인 요청을 받을 때 사용(임시 객체, DB와 직접 연결 안됨.
      AppUser -> DB에 저장된 실제 사용자 정보
      */
+
+    // 사용자가 /login 엔드 포인트에 AccountCredentials(username,password) 형태로 JSON 요청을 보냄
+    /*
+    {
+  "username": "admin",
+  "password": "admin"
+}
+     */
 }
