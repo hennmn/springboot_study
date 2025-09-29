@@ -27,7 +27,7 @@ import java.util.Collections;
  */
 
 @Component
-@RequiredArgsConstructor    // Filter라는 개념은 요청이 Controller까지 가지 전에 또는 응답이 나가지 전에 중간에 거쳐 가는 관문
+@RequiredArgsConstructor    // Filter라는 개념은 요청이 Controller까지 가기 전에 또는 응답이 나가기 전에 중간에 거쳐 가는 관문
 public class AuthenticationFilter extends OncePerRequestFilter {  // 이 클래스는 다른 모든 수신 요청을 인증 처리할 겁니다.
     private final JwtService jwtService;
 
@@ -49,9 +49,9 @@ public class AuthenticationFilter extends OncePerRequestFilter {  // 이 클래�
 
             SecurityContextHolder.getContext().setAuthentication(authentication);  // 인증 객체 정보 저장
         }
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response);  // 여기서 LoginController로 요청이 그대로 전달됨 (@RestController)
 
-        // 헤어에서 토큰 -> 유효성 검증 -> SecurityContext에 인증 심기 -> 다음 필터로
+        // 헤더에서 토큰 -> 유효성 검증 -> SecurityContext에 인증 심기 -> 다음 필터로
         // 이 작업이 매 요청마다 한 번씩 이루어짐
     }
 

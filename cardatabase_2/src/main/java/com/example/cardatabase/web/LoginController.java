@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
 public class LoginController {
     private final JwtService jwtService;  // 토큰
     private final AuthenticationManager authenticationManager;    // Spring Security 프레임워크에서 제공하는 인터페이스
-    // 사용자가 입력한 아이디(username), 비밀번호(password) 를 검증해서 "정상 사용자냐 아니냐"를 판단하는 역할을 맡아요.
+    // 사용자가 입력한 아이디(username), 비밀번호(password) 를 검증해서 "정상 사용자냐 아니냐"를 판단하는 역할을 맡음
 
     public LoginController(JwtService jwtService, AuthenticationManager authenticationManager) {
         this.jwtService = jwtService;
@@ -28,7 +29,7 @@ public class LoginController {
             응답 본문(body, JSON 등)
         <?> 는 제네릭 타입 와일드 카드
         -> 어떤 타입이는 리턴할 수 있다는 뜻이고, 여기서는 응답 body를 따로 지정하지 않아서 ?로 둔 거임
-        만약 ReponseEntity<String) 이라고 쓰면 body는 문자열만 올 수 있음
+        만약 ReponseEntity<String> 이라고 쓰면 body는 문자열만 올 수 있음
         [body에 "사용자 객체"를 담을 수도 있고, "토큰만" 보낼 수도 있고, 심지어 "아무 것도 안 보낼 수도" 있습니다.]
 
         getToken -> 개발자가 정의한 메서드 이름(로그인 후 토큰을 발급해준다 라는 의미로 네이밍)
@@ -36,21 +37,23 @@ public class LoginController {
         @RequestBody -> HTTP요청의 body(JSON 형식)를 자바 객체로 변환해줍니다.(Spring MVC 애너테이션)
         여기서는 클라이언트가 {"username":"admin", "password":"1234"} 같은 JSON을 보내면
         Spring이 자동으로 AccountCredentials 객체로 변환해서 credentials 매개 변수에 넣어줍니다.
+        즉 JSON의 "username" → AccountCredentials.username()
+        "password" → AccountCredentials.password()로 매핑
 
         AccountCredentials credentials -> DTO(데이터 전송 객체) 역할을 하는 클래스입니다.
         즉, 로그인 시 클라이언트가 보낸 JSON 데이터가 여기로 매핑되는 거예요.
 
         정리 ==>
-        1. 클라이언트가 /login으로 JSON 데이터를 보내면(@RequestBody)
-        2. 그걸 AccountCredentials 객체로 받고,
-        3. 인증 후 JWT를 발급해서
+        1. 로그인 시점: 클라이언트가 username/password를 JSON Body에 넣어 /login으로 보냄.
+        2. 컨트롤러: @RequestBody AccountCredentials가 그 JSON을 자바 객체로 바꿔줌.
+        3. 이후 처리: 이 값을 AuthenticationManager에 넘겨 인증 → JWT 발급.
         4. ResponseEntity로 응답을 만들어 반환한다.
      */
 
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> getToken(@RequestBody AccountCredentials credentials) {  // 로그인할 때 JSON을 @RequestBody AccountCredentials로 받음
+    public ResponseEntity<?> getToken(@RequestBody AccountCredentials credentials) {  // 로그인할 때 JSON을 @RequestBody AccountCredentials로 요청을 받음
         // 이 응답이 오면
         // 여기에 토큰 생성하고 응답의 Authorization 헤더로 전송해주는 로직 작성할겁니다.
         UsernamePasswordAuthenticationToken creds =   // 사용자가 입력한 아이디/비번을 담은 인증 요청 객체
