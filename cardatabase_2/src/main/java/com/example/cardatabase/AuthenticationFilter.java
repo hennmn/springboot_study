@@ -38,7 +38,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {  // 이 클래�
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        // 토큰 가져오기  JwtService에 인증이 된 토큰을 가져온
+        // 토큰 가져오기  JwtService에 인증이 된 토큰을 가져온다
         String jws = request.getHeader(HttpHeaders.AUTHORIZATION);   // 로그인 입력한 아이디 정보가 요청 들어온 헤더에 담겨있음 그거 가지고 // 요청에 Authorization: Bearer <jwt>가 있는 지 확인함
         if(jws != null) {
             // 토큰 검증 + 사용자 식별자 추출
