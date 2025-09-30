@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
-@RestController
+// 보통 Controller가 Service를 사용
+@RestController  // 해당 클래스가 RESTful API 웹 서비스 상의 Contoller가 될 것을 지정함
 public class LoginController {
     private final JwtService jwtService;  // 토큰
     private final AuthenticationManager authenticationManager;    // Spring Security 프레임워크에서 제공하는 인터페이스
@@ -50,8 +50,6 @@ public class LoginController {
         4. ResponseEntity로 응답을 만들어 반환한다.
      */
 
-
-
     @PostMapping("/login")
     public ResponseEntity<?> getToken(@RequestBody AccountCredentials credentials) {  // 로그인할 때 JSON을 @RequestBody AccountCredentials로 요청을 받음
         // 이 응답이 오면
@@ -75,9 +73,6 @@ public class LoginController {
         // 토큰 생성 - jwts를 지역변수로 보셔도 무방하죠   // 로그인 한 걸로 토큰 생성
         String jwts = jwtService.getToken(auth.getName());  // 사용자 인증 성공 시 → JwtService로 JWT 발급
         // 여기서 다시 필터로감
-        //
-
-
 
         // 생성된 토큰으로 응답을 빌드
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
@@ -87,7 +82,7 @@ public class LoginController {
 
 
 
-        // AuthEntryPoint 여기에 401에러 뜬 거 있음
+        // AuthEntryPoint에 미인증/만료 401에러
 
         /*
         전체 순서 요약
@@ -101,11 +96,6 @@ public class LoginController {
         AuthenticationFilter → JwtService.getAuthUser()로 토큰 검증
         검증 성공 시 요청 진행, 실패 시 접근 거부
     */
-
-        /*
-
-         */
-
 
     }
 }

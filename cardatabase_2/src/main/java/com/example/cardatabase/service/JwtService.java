@@ -45,7 +45,7 @@ public class JwtService {
                     .parseClaimsJws(token.replace(PREFIX, ""))
                     // parseClaimsJws() 에 헤더,페이로드,서명이 모두 들어있고 여기서 토큰 내부를 실제로 읽고 서명까지 검증함
                     .getBody()
-                    // 위의 검증 결과에서 페이로드만 가져오는 메서드(페이로드 JSON을 가져옴)   // 요청이 들어오면 이렇게 되는 건가..?
+                    // 위의 검증 결과에서 페이로드만 가져오는 메서드(페이로드 JSON을 가져옴)
                     // 예: { "sub": "username", "exp": 1234567890 }
                     .getSubject();
             /*
